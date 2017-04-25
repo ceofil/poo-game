@@ -23,6 +23,12 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include <cmath>
+#include "Poop.h"
+#include "Face.h"
+#include <random>
+#include <fstream>
+
 
 class Game
 {
@@ -34,22 +40,65 @@ public:
 private:
 	void ComposeFrame();
 	void UpdateModel();
+	
 	/********************************/
 	/*  User Functions              */
+	void gameover(int x, int y);
+	float howmanpoopz();
+
+	float seglen(int x1, int y1, int x2, int y2);
+	void drawCircle(int x, int y, int r);
+
+	void drawEmptyCircle(int x, int y, int r);
+
+	void drawrect(int x, int y, int w, int h,Color c);
+
+	void drawemptyrect(int x, int y, int w, int h, Color c);
+
+	void trackpoop(int target);
+
+	void choosetarget(int range);
+
+	void nonrecursiontrack();
+
+	void recursiontry(int x1, int y1, int x2, int y2);
+
+	void drawline(int x1, int y1, int x2, int y2);
+
+	
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
-	int x = 300, y = 300, speed = 3;
-	int r = 255, g = 255, b = 255;
-	int sqlen = 10;						//sqare lenght
-	int vx = 0, vy = 0;
-	bool inhibRight = false;
-	bool inhibLeft = false;
-	bool inhibUp = false;
-	bool inhibDown = false;
 
+
+	std::random_device rd;
+	std::mt19937 rng;
+	std::uniform_int_distribution<int> xrange;
+	std::uniform_int_distribution<int> yrange;
+	std::uniform_int_distribution<int> vrange;
+	static constexpr int n = 100;
+
+	Face face;
+
+	bool gameisover = false;
+	int target = 1;
+	Poop poopz[n];
+	int previoustarget = 1;
+	int range = 10;
+	bool breakrange = false;
+	int centerx = gfx.ScreenWidth / 2;
+	int centery = gfx.ScreenHeight / 2;
+	int currentcadran = 1;
+	Color c1 = Colors::Blue;
+	Color c2 = Colors::Blue;
+	Color c3 = Colors::Blue;
+	Color c4 = Colors::Blue;
+
+	
 	/********************************/
 };
+
+
